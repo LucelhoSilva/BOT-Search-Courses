@@ -4,6 +4,7 @@ import keyring
 from discord.ext import commands
 
 from engines.udemy import get_udemy_courses
+from engines.coursera import get_cursera_courses
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -22,6 +23,17 @@ async def search_cursos():
     channel = bot.get_channel(channel_id)
     while not bot.is_closed():
 
+
+        # Coursera
+        results = await get_cursera_courses()
+        for result in results:
+            if result[0] not in sent_courses:
+                sent_courses.append(result[0])
+                course_info = f'{"-"*50}\n\nEMPRESA: {result[0]}\nCURSO: {result[1]}\nLINK: {result[2]}\nDESCRIÇÃO: {result[3]}'
+                await channel.send(course_info)
+                await asyncio.sleep(60)
+        await asyncio.sleep(60)
+
         # Udemy
         results = await get_udemy_courses()
         for result in results:
@@ -31,10 +43,8 @@ async def search_cursos():
                 await channel.send(course_info)
                 await asyncio.sleep(60)
         await asyncio.sleep(60)
-
-
 @bot.event
 async def on_ready():
     bot.loop.create_task(search_cursos())
 
-bot.run('MTE0NDgyNTY3NzQ2NDQ4MTgxMw.GFsZ4M.VkQvQ6CeSYpNRLIxmhVnAGV8XlwnTcT5aP9pWE')
+bot.run('MTE0NDgyNTY3NzQ2NDQ4MTgxMw.GZ7SKA.unz7JWbRFS2d0Npu98p7KSUeMkqY8oyFzT6eQg')
