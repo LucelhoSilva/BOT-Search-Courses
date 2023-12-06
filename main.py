@@ -47,4 +47,4 @@ async def search_cursos():
 async def on_ready():
     bot.loop.create_task(search_cursos())
 
-bot.run('MTE0NDgyNTY3NzQ2NDQ4MTgxMw.GZ7SKA.unz7JWbRFS2d0Npu98p7KSUeMkqY8oyFzT6eQg')
+bot.run(keyring.get_password('bot_cursos', 'token'))
