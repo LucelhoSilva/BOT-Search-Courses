@@ -25,7 +25,6 @@ async def search_cursos():
     channel = bot.get_channel(channel_id)
     while not bot.is_closed():
 
-
         # Coursera
         results = await get_cursera_courses()
         for result in results:
@@ -65,7 +64,6 @@ async def search_cursos():
                 await channel.send(course_info)
                 await asyncio.sleep(60)
         await asyncio.sleep(60)
-
 
 @bot.event
 async def on_ready():
