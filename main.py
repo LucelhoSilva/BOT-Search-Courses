@@ -5,6 +5,8 @@ from discord.ext import commands
 
 from engines.udemy import get_udemy_courses
 from engines.coursera import get_cursera_courses
+from engines.cursoemvideo import get_cursoemvideo_courses
+from engines.hrbrcursos import get_hrbrcursos_courses
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -34,6 +36,26 @@ async def search_cursos():
                 await asyncio.sleep(60)
         await asyncio.sleep(60)
 
+        # Curso em Vídeo
+        results = await get_cursoemvideo_courses()
+        for result in results:
+            if result[0] not in sent_courses:
+                sent_courses.append(result[0])
+                course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nLINK: {result[1]}'
+                await channel.send(course_info)
+                await asyncio.sleep(60)
+        await asyncio.sleep(60)
+
+        # HRBR Cursos
+        results = await get_hrbrcursos_courses()
+        for result in results:
+            if result[0] not in sent_courses:
+                sent_courses.append(result[0])
+                course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nLINK: {result[1]}'
+                await channel.send(course_info)
+                await asyncio.sleep(60)
+        await asyncio.sleep(60)
+
         # Udemy
         results = await get_udemy_courses()
         for result in results:
@@ -43,6 +65,8 @@ async def search_cursos():
                 await channel.send(course_info)
                 await asyncio.sleep(60)
         await asyncio.sleep(60)
+
+
 @bot.event
 async def on_ready():
     bot.loop.create_task(search_cursos())

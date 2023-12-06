@@ -9,7 +9,6 @@ async def get_cursera_courses() -> list:
         async with httpx.AsyncClient() as client:
             response = await client.get(f'https://www.coursera.org/courses?query=free&page={page}&topic=Computer%20Science&topic=Data%20Science&topic=Information%20Technology&topic=Math%20and%20Logic&topic=Personal%20Development')
             soup = BeautifulSoup(response.text, "html.parser")
-            print(f'Page: {page}')
             cells = soup.find_all("li", class_="cds-9 css-0 cds-11 cds-grid-item cds-56 cds-64 cds-76")
 
             for cell in cells:
