@@ -1,7 +1,6 @@
 import httpx
 from bs4 import BeautifulSoup
 
-
 async def get_udemy_courses() -> list:
     base_url = "https://www.udemyfreebies.com/"
     courses = []
