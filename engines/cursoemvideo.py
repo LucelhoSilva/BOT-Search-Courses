@@ -16,5 +16,4 @@ async def get_cursoemvideo_courses() -> list:
       
       course = [title, link]
       courses.append(course)
-
   return courses
