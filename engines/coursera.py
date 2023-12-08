@@ -24,5 +24,4 @@ async def get_cursera_courses() -> list:
 
                     course = [company, title, link, descricao]
                     courses.append(course)
-
     return courses
