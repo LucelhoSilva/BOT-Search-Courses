@@ -53,7 +53,6 @@ async def on_started(event: hikari.StartedEvent) -> None:
             await asyncio.sleep(60)
     await asyncio.sleep(60)
 
-
     # Udemy
     results = await get_udemy_courses()
     for result in results:
