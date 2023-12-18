@@ -19,9 +19,12 @@ async def get_cursera_courses() -> list:
                     link = curses.find("a", class_="cds-119 cds-113 cds-115 cds-CommonCard-titleLink css-si869u cds-142").get('href')
                     link = f'https://www.coursera.org{link}'
 
-                    descricao_element = curses.find("div", class_="cds-CommonCard-bodyContent")
-                    descricao = descricao_element.get_text().strip() if descricao_element else "Descrição não disponível"
+                    acquire_skill = curses.find("div", class_="cds-CommonCard-bodyContent")
+                    skill = acquire_skill.get_text().strip() if acquire_skill else "Descrição não disponível"
+                    skill = skill.replace("Skills you'll gain: ", "")
 
-                    course = [company, title, link, descricao]
+                    description = curses.find("div", class_="cds-CommonCard-metadata").get_text(strip=True)
+
+                    course = [company, title, link, skill, description]
                     courses.append(course)
     return courses
