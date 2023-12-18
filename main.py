@@ -8,6 +8,7 @@ from engines.udemy import get_udemy_courses
 from engines.coursera import get_cursera_courses
 from engines.cursoemvideo import get_cursoemvideo_courses
 from engines.hrbrcursos import get_hrbrcursos_courses
+from engines.udacity import get_udacity_courses
 
 bot = hikari.GatewayBot(keyring.get_password('bot_cursos', 'token'), intents=intents.Intents.ALL)
 channel_id = keyring.get_password('bot_cursos', 'channel')
@@ -60,6 +61,16 @@ async def on_started(event: hikari.StartedEvent) -> None:
         if result[0] not in sent_courses:
             sent_courses.append(result[0])
             course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nLINK: {result[1]}'
+            await bot.rest.create_message(channel_id, course_info)
+            await asyncio.sleep(60)
+    await asyncio.sleep(60)
+
+    #Udacity
+    results = await get_udacity_courses()
+    for result in results:
+        if result[0] not in sent_courses:
+            sent_courses.append(result[0])
+            course_info = f'{"-"*50}\n\nCURSO: {result[1]}\nLINK: {result[2]}'
             await bot.rest.create_message(channel_id, course_info)
             await asyncio.sleep(60)
     await asyncio.sleep(60)
