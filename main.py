@@ -3,12 +3,13 @@ from hikari import intents
 import asyncio
 import keyring
 
-from engines.unovacursos import get_unovacursos_courses
-from engines.udemy import get_udemy_courses
 from engines.coursera import get_cursera_courses
 from engines.cursoemvideo import get_cursoemvideo_courses
 from engines.hrbrcursos import get_hrbrcursos_courses
+from engines.learnMicrosoft import get_learnMicrosft_courses
 from engines.udacity import get_udacity_courses
+from engines.unovacursos import get_unovacursos_courses
+from engines.udemy import get_udemy_courses
 
 bot = hikari.GatewayBot(keyring.get_password('bot_cursos', 'token'), intents=intents.Intents.ALL)
 channel_id = keyring.get_password('bot_cursos', 'channel')
@@ -55,12 +56,12 @@ async def on_started(event: hikari.StartedEvent) -> None:
             await asyncio.sleep(60)
     await asyncio.sleep(60)
 
-    #Unova Cursos
-    results = await get_unovacursos_courses()
+    #Learn Microsoft
+    results = await get_learnMicrosft_courses()
     for result in results:
         if result[0] not in sent_courses:
             sent_courses.append(result[0])
-            course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nLINK: {result[1]}'
+            course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nDIFICULDADE: {result[1]}\nSTACK: {result[2]}\nLINK: {result[3]}'
             await bot.rest.create_message(channel_id, course_info)
             await asyncio.sleep(60)
     await asyncio.sleep(60)
@@ -75,15 +76,24 @@ async def on_started(event: hikari.StartedEvent) -> None:
             await asyncio.sleep(60)
     await asyncio.sleep(60)
 
-    
-    # # Udemy
-    # results = await get_udemy_courses()
-    # for result in results:
-    #     if result[0] not in sent_courses:
-    #         sent_courses.append(result[0])
-    #         course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nLINK: {result[1]}'
-    #         await bot.rest.create_message(channel_id, course_info)
-    #         await asyncio.sleep(60)
-    # await asyncio.sleep(60)
+    #Unova Cursos
+    results = await get_unovacursos_courses()
+    for result in results:
+        if result[0] not in sent_courses:
+            sent_courses.append(result[0])
+            course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nLINK: {result[1]}'
+            await bot.rest.create_message(channel_id, course_info)
+            await asyncio.sleep(60)
+    await asyncio.sleep(60)
+
+    # Udemy
+    results = await get_udemy_courses()
+    for result in results:
+        if result[0] not in sent_courses:
+            sent_courses.append(result[0])
+            course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nLINK: {result[1]}'
+            await bot.rest.create_message(channel_id, course_info)
+            await asyncio.sleep(60)
+    await asyncio.sleep(60)
 
 bot.run()
