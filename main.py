@@ -3,6 +3,7 @@ from hikari import intents
 import asyncio
 import keyring
 
+from engines.unovacursos import get_unovacursos_courses
 from engines.udemy import get_udemy_courses
 from engines.coursera import get_cursera_courses
 from engines.cursoemvideo import get_cursoemvideo_courses
@@ -53,6 +54,17 @@ async def on_started(event: hikari.StartedEvent) -> None:
             await asyncio.sleep(60)
     await asyncio.sleep(60)
 
+    #Unova Cursos
+    results = await get_unovacursos_courses()
+    for result in results:
+        if result[0] not in sent_courses:
+            sent_courses.append(result[0])
+            course_info = f'{"-"*50}\n\nCURSO: {result[0]}\nLINK: {result[1]}'
+            await bot.rest.create_message(channel_id, course_info)
+            await asyncio.sleep(60)
+    await asyncio.sleep(60)
+
+    
     # # Udemy
     # results = await get_udemy_courses()
     # for result in results:
